@@ -1,0 +1,21 @@
+Installation Of MQTT Broker on ubuntu
+--------------------------------------------
+sudo apt-get install mosquitto mosquitto-clients
+
+Subcriber MQTT
+-----------------
+sudo apt-get install mosquitto mosquitto-clients
+
+Publisher MQTT
+----------------
+mosquitto_pub -h localhost -t test -m "hello world"
+
+
+Set username and Password for MQTT
+-------------------------------------
+1. sudo mosquitto_passwd -c /etc/mosquitto/passwd <user_name>
+2. sudo gedit /etc/mosquitto/mosquitto.conf
+3. password_file /etc/mosquitto/passwd
+   allow_anonymous false (paste these 2 lines)
+4. sudo mosquitto -c /etc/mosquitto/mosquitto.conf
+5. mosquitto_sub -h localhost -p 1883 -t myTopic -u <user_name> -P <password>
