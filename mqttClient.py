@@ -32,8 +32,38 @@ def onConnect(client,userdata,flags,rc):
     Logs.log("DEBUG","Connecting to MQTT Broker....")
     if rc == 0:
         Logs.log("DEBUG","Connected To MQTT Broker....")
+        subscribe(client,const.MQTT_INITIAL_TOPICS_SUBSCIBE)
     else:
         Logs.log("DEBUG",f"Failed To MQTT Broker....return code {rc}")
+
+def subscribe(client,topic):
+    """
+    subscribe the clinet to one or more topics.
+    topic:A list of tuple of format(topic,subscriptions).Both topic and subscribe options must be present in all of tuples.
+    Raise a ValueError if qos is not 0,1 or 2,or if topic is None or has
+    zero string length,or if not a string,tuple or list
+    """
+    try:
+        client.subscribe(topic)
+        for topic_name,qos in topic:
+            Logs.log(
+                "DEBUG",
+                f"Subscribed to topic {topic_name} with qos {qos}"
+            )
+        client.on_message = onMessageReceieved
+    except Exception as e:
+        Logs.log("ERROR","Error : "+str(e))
+
+def onMessageReceieved(client,userdata,msg):
+    """The message recieved are handled in MessageHandle Module"""
+    try:
+        Logs.log("DEBUG",f"Data Recieved '{msg.payload.decode()}' from MQTT '{msg.topic}' Topic")
+    except Exception as e:
+        Logs.log(
+            "ERROR",
+            f"Error While recieveing message at {msg.topic} : {msg.payload.decode()}"
+        )
+
 
 def initClientAndLoopForever():
     """

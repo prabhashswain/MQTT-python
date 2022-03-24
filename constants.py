@@ -13,7 +13,13 @@ MQTT_SUBSCRIBED_TOPICS = {
 }
 
 #mqtt topics published
-MQTT_SUBSCRIBED_TOPICS = {
+MQTT_PUBLISH_TOPICS = {
     "deviceList":"antelcia/Gatway/Device_list",
     "results":"antelcia/Gateway/Results",
 }
+
+#subscribe format
+MQTT_INITIAL_TOPICS_SUBSCIBE = [
+    (MQTT_SUBSCRIBED_TOPICS["getDeviceList"],1),
+    (MQTT_SUBSCRIBED_TOPICS["results"],1)
+]
